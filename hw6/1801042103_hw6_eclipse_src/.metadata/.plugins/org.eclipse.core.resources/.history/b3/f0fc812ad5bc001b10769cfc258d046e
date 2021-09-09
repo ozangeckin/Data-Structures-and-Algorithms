@@ -1,0 +1,9 @@
+
+public class Trader extends User {
+
+	public Trader(Integer userId, String userName, String role) {
+		super(userId, userName, role);
+		// TODO Auto-generated constructor stub
+	}
+
+}

@@ -1,0 +1,136 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
+import java.util.StringTokenizer;
+
+public class User {
+
+	private Integer userId;
+	private String password;
+	private String userName;
+	private String role;
+	private BufferedWriter bwu;
+	private BufferedReader bru;
+	
+	public User() {
+
+	}
+
+	public User(String userName, String role) {
+		this.userId = genareteUserId();
+		this.password = genarateUserPassword(userName);
+		this.userName = userName;
+		this.role = role;
+	}
+
+	public User(Integer userId, String userName, String password, String role) {
+		this.userId = userId;
+		this.password = password;
+		this.userName = userName;
+		this.role = role;
+	}
+	
+	public void writerFile() {
+		try {
+			bwu = new BufferedWriter(new FileWriter("data/user.txt", true));
+			bwu.write(String.valueOf(this.userId));
+			bwu.write(";");
+			bwu.write(this.userName);
+			bwu.write(";");
+			bwu.write(this.password);
+			bwu.write(";");
+			bwu.write(this.role);
+			bwu.write("\n");
+			bwu.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
+	}
+
+	public User Login(Integer UserId, String Pass, String role) {
+		String temp;
+		try {
+			bru = new BufferedReader(new FileReader("data/user.txt"));
+			while ((temp = bru.readLine()) != null) {
+				String[] token = temp.split(";");
+				if (token[0] != null && token[2] != null) {
+					if (UserId == Integer.parseInt(token[0]) && Pass.equals(token[2])) {
+						if(role.equals("trader")) {
+							return new Trader(userId,token[1],token[2],token[3]);
+						}else {
+							return new Customer();
+						}
+					}
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public int genareteUserId() {
+		int id = 0;
+		int count = 0;
+		LinkedList<Integer> idList = new LinkedList<Integer>();
+		String temp, temp2;
+		Random rd = new Random();
+		id = 10000000 + rd.nextInt(90000000);
+		try {
+			bru = new BufferedReader(new FileReader("data/user.txt"));
+			bru.readLine();
+			while ((temp = bru.readLine()) != null) {
+				StringTokenizer st = new StringTokenizer(temp, ";");
+				while (st.hasMoreElements()) {
+					temp2 = st.nextToken();
+					if (count == 0 && temp2 != null && temp2 != ";") {
+						idList.add(Integer.parseInt(temp2));
+					}
+					count++;
+				}
+				count = 0;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if (idList.contains(id)) {
+			genareteUserId();
+		}
+		return id;
+	}
+
+	public String genarateUserPassword(String userName) {
+		if (userName.length() < 6) {
+			while (userName.length() < 6) {
+				userName = userName + userName;
+			}
+		}
+		return userName.substring(0, 6);
+
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public String getRole() {
+		return role;
+	}
+}

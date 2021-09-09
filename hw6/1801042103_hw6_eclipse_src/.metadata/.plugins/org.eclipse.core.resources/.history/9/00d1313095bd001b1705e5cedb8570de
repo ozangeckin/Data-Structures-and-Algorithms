@@ -1,0 +1,10 @@
+import java.util.Map;
+
+public class Menu {
+	Map<String,String> options;
+	
+	public void show() {
+		
+	}
+	
+}

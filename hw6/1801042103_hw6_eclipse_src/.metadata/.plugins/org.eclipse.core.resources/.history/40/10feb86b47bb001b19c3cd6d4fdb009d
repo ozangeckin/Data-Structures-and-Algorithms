@@ -1,0 +1,15 @@
+import java.util.HashMap;
+
+public class CustomerMenu extends Menu{
+
+    public CustomerMenu() {
+        options=new HashMap<>();
+        options.put("1","Search Products By Name");
+        options.put("2","Search Products By Trader");
+        options.put("x","Exit");
+    }
+
+    public void select(String choice){
+
+    }
+}

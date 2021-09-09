@@ -1,0 +1,29 @@
+import java.util.HashMap;
+
+public class TraderMenu extends Menu{
+
+    public TraderMenu() {
+        options=new HashMap<>();
+        options.put("1","Add Product");
+        options.put("2","Edit Product");
+        options.put("3","Remove Product");
+        options.put("4","List Orders");
+        options.put("x","Exit");
+    }
+
+    public void select(String choice){
+
+        switch (choice){
+            case "1":
+                System.out.print("Product Id :");
+                String productId=Main.in.nextLine();
+                System.out.print("Product Name :");
+                String productName=Main.in.nextLine();
+                System.out.println("Category Tree (press Enter to add new category, x to end)");
+                String category="";
+                while (!category.equals("x")) {
+                    category = Main.in.nextLine();
+                }
+        }
+    }
+}

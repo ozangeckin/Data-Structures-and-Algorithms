@@ -1,0 +1,89 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+import java.util.TreeMap;
+
+public class Parser {
+
+	private BufferedReader br;
+	private BufferedWriter bw;
+	private BufferedWriter bwt;
+	private BufferedReader brt;
+	private ArrayList<String> tre = new ArrayList<String>();
+	private TreeMap<Integer, String> cat = new TreeMap<Integer, String>();
+
+	public void parser() {
+		String temp;
+		String temp2;
+		int count = 0;
+		try {
+			br = new BufferedReader(new FileReader("data/e.csv"));
+			bw = new BufferedWriter(new FileWriter("data/product.txt"));
+			while ((temp = br.readLine()) != null) {
+				StringTokenizer st = new StringTokenizer(temp, ";");
+				while (st.hasMoreElements()) {
+					temp2 = st.nextToken();
+					if (count == 6 && temp2 != null && temp2 != ";") {
+						if (!tre.contains(temp2)) {
+							tre.add(temp2);
+						}
+					}
+					bw.write(temp2);
+					bw.write(";");
+					count++;
+				}
+				count = 0;
+				bw.write("\n");
+
+			}
+			br.close();
+			bw.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found!");
+		} catch (IOException e) {
+			System.out.println("Cannot read file!");
+		}
+	}
+
+	public void defaultUserCreate() {
+
+		for (int i = 1; i < tre.size(); i++) {
+			User temp = new User(tre.get(i), "trader");
+			temp.writerFile();
+		}
+	}
+
+	public void defaultUser() {
+		try {
+			bwt = new BufferedWriter(new FileWriter("data/user.txt"));
+			bwt.write("id;name;password;role");
+			bwt.write("\n");
+			bwt.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void defaultCatagory() {
+		String temp;
+		String[] x=null;
+		try {
+			brt = new BufferedReader(new FileReader("data/product.txt"));
+			while((temp= brt.readLine()) != null) {
+				String[] token = temp.split(";");
+				String newCa=token[2].substring(2, token[2].length()-2);
+				x=newCa.split(">>");
+			}
+			for(String tt: x) {
+				
+			}
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

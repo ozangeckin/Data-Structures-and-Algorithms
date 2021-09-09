@@ -1,0 +1,59 @@
+
+public class Product {
+	
+	private String id;
+	private String name;
+	private String prdctCatog;
+	private String description;
+	private Double price;
+	private Double discountAmount;
+	private String trader;
+	prdctId,prdctName,prdctCategory,price,dicPri,description
+	public Product(String id, String name,String prdctCategory,Double price,Double dicPri ,String trader) {
+		
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getTrader() {
+		return trader;
+	}
+	public void setTrader(String trader) {
+		this.trader = trader;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Double getPrice() {
+		return price;
+	}
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+	public Double getDiscountAmount() {
+		return discountAmount;
+	}
+	public void setDiscountAmount(Double discountAmount) {
+		this.discountAmount = discountAmount;
+	}
+	public String getPrdctCatog() {
+		return prdctCatog;
+	}
+	public void setPrdctCatog(String prdctCatog) {
+		this.prdctCatog = prdctCatog;
+	}
+	
+	
+}

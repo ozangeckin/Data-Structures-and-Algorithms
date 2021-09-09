@@ -1,0 +1,44 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.StringTokenizer;
+
+public class Users {
+    Hashtable<Integer,User> usersHash;
+
+    public Users() {
+        usersHash=new Hashtable<>();
+        String record;
+        try {
+            BufferedReader br = new BufferedReader( new FileReader("data/users.csv") );
+            while( ( record = br.readLine() ) != null ) {
+
+                StringTokenizer line = new StringTokenizer(record, ";");
+                Integer userId=Integer.parseInt(line.nextToken());
+                String password=line.nextToken();
+                String userName=line.nextToken();
+                String role=line.nextToken();
+
+                User user=new User(userId,password,userName,role);
+
+                usersHash.put(userId,user);
+
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Users file not found!");
+        } catch (IOException e) {
+            System.out.println("Cannot read Users file!");
+        }
+    }
+
+    public User login(Integer userId,String password){
+
+        User savedUser=usersHash.get(userId);
+        if (savedUser!=null && password.equals(savedUser.getPassword())){
+            return savedUser;
+        }
+        return null;
+    }
+}

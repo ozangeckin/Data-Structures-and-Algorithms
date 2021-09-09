@@ -1,0 +1,12 @@
+
+public class Customer extends User {
+
+	ArrayList<Product> product;
+	
+	public Customer(Integer userId, String userName, String role) {
+		super(userId, userName, role);
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+}

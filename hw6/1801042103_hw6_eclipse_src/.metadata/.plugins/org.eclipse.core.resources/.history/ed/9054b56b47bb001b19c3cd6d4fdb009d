@@ -1,0 +1,47 @@
+import java.util.Scanner;
+
+public class Main {
+    public static final String TRADER="Trader";
+    public static final String CUSTOMER="Customer";
+    public static final Scanner in=new Scanner(System.in);
+
+    public static void main(String[] args) {
+        User currentUser=null;
+        Users users=new Users();
+
+        while (currentUser==null) {
+            System.out.print("User Id : ");
+            Integer userId = Integer.parseInt(in.nextLine());
+
+            System.out.print("Password : ");
+            String password = in.nextLine();
+
+            currentUser = users.login(userId,password);
+
+            if (currentUser==null){
+                System.out.println("Cannot connect to app! Try again");
+            }
+        }
+
+
+        System.out.println("WELCOME "+currentUser.getUserName().toUpperCase());
+
+        String choice="";
+        while (!choice.equals("x")){
+            Menu menu;
+            if (currentUser.getRole().equals(TRADER)){
+                menu=new TraderMenu();
+            }
+           else {
+               menu=new CustomerMenu();
+            }
+
+           menu.show();
+           choice=in.nextLine();
+           menu.select(choice);
+
+        }
+
+    }
+
+}

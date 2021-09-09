@@ -1,0 +1,18 @@
+import java.util.Iterator;
+import java.util.Map;
+
+public class Menu {
+
+   Map<String, String> options;
+
+   public void show(){
+      Iterator it=options.entrySet().iterator();
+      while (it.hasNext()){
+         Map.Entry<String,String> entry= (Map.Entry<String, String>) it.next();
+         System.out.println(entry.getKey()+" - "+entry.getValue() );
+      }
+   }
+
+   public void select(String choice) {
+   }
+}

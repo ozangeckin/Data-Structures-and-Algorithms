@@ -1,0 +1,83 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class Parser {
+
+	public void parser() {	
+		String temp;
+		ArrayList<String> count = new ArrayList<String>();
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("data/e-commerce-samples.csv"));
+			BufferedWriter bw = new BufferedWriter(new FileWriter("data/product.txt"));
+			while((temp = br.readLine()) != null) {
+				count.set(0, temp.split(";"));
+				
+				bw.write(count.get(0)+";"+count.get(1));
+				
+				
+//				StringTokenizer line = new StringTokenizer(temp,";");
+//				String temp2 =line.nextToken();
+//				if(temp2 !=null && !temp2.equals(";")) {
+//					bw.write(temp2);
+//					bw.write(";"); 
+//				}else {
+//					bw.write(";");
+//				}
+//				String temp3 =line.nextToken();
+//				if(temp3 !=null && !temp3.equals(";")) {
+//					bw.write(temp3);
+//					bw.write(";"); 
+//				}else {
+//					bw.write(";");
+//				}
+//				String temp4 =line.nextToken();
+//				if(temp2 !=null && !temp4.equals(";")) {
+//					bw.write(temp4);
+//					bw.write(";"); 
+//				}else {
+//					bw.write(";");
+//				}
+//				String temp5 =line.nextToken();
+//				if(temp5 !=null && !temp5.equals(";")) {
+//					bw.write(temp5);
+//					bw.write(";"); 
+//				}else {
+//					bw.write(";");
+//				}
+//				String temp6 =line.nextToken();
+//				if(temp6 !=null && !temp6.equals(";")) {
+//					bw.write(temp6);
+//					bw.write(";"); 
+//				}else {
+//					bw.write(";");
+//				}
+//				System.out.println(line.countTokens());
+//
+//				String temp7 =line.nextToken();
+//				if(temp7 !=null && !temp7.equals(";")) {
+//					bw.write(temp7);
+//					bw.write(";"); 
+//				}else {
+//					bw.write(";");
+//				}
+//				String temp8=line.nextToken();
+//				if(temp8 !=null && !temp8.equals(";")) {
+//					bw.write(temp8);
+//					bw.write(";"); 
+//				}else {
+//					bw.write(";");
+//				}	
+
+			}
+		}catch(FileNotFoundException e) {
+			System.out.println("File not found!");
+		}catch(IOException e) {
+			System.out.println("Cannot read file!");
+		}
+	}
+}

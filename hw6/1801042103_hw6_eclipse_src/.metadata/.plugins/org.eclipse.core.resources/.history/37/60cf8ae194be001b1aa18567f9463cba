@@ -1,0 +1,266 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+/**
+ * This class provides customer information and customer transactions. It has
+ * been extended from the user class.
+ * 
+ * @author ozan.geckin
+ *
+ */
+public class Customer extends User {
+	/** ArrayList kept product */
+	private ArrayList<Product> prodName = new ArrayList<>();
+	private BufferedReader brc;
+	private BufferedWriter bwo;
+
+	/**
+	 * No parameter constructor
+	 */
+	public Customer() {
+	}
+
+	/**
+	 * Four parameter constructor. Creates a Customer object according to the
+	 * parameters it receives. And it writes to the user file.
+	 * 
+	 * @param userId   Customer id
+	 * @param userName Customer user name
+	 * @param password Customer password
+	 * @param role     Customer role
+	 */
+	public Customer(Integer userId, String userName, String password, String role) {
+		super(userId, userName, password, role);
+		super.writerFile();
+	}
+
+	/**
+	 * This method register to the system.
+	 * 
+	 * @param cuName String Customer name
+	 * @param cuPass String Customer password
+	 */
+	public void register(String cuName, String cuPass) {
+		Customer temp = new Customer(super.genareteUserId(), cuName, cuPass, "customer");
+	}
+
+	/**
+	 * This method searches the product.txt file according to the product name it
+	 * receives and returns a list.
+	 * 
+	 * @param naPrdct String product name
+	 * @return ArrayList Product
+	 */
+	public ArrayList<Product> searchName(String naPrdct) {
+		String temp;
+		int count = 0;
+		try {
+			brc = new BufferedReader(new FileReader("data/product.txt"));
+			while ((temp = brc.readLine()) != null) {
+				String[] token = temp.split(";");
+				if (token[1].contains(naPrdct) || token[5].contains(naPrdct)) {
+					prodName.add(count, new Product(token[0], token[1], token[2], Integer.parseInt(token[3]),
+							Integer.parseInt(token[4]), token[5], token[6]));
+					count++;
+				}
+			}
+			brc.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return prodName;
+	}
+
+	/**
+	 * This method searches the product.txt file according to the product trader it
+	 * receives and returns a list.
+	 * 
+	 * @param trader String Product trader
+	 * @return ArrayList Product
+	 */
+	public ArrayList<Product> searchTrader(String trader) {
+		String temp;
+		int count = 0;
+		try {
+			brc = new BufferedReader(new FileReader("data/product.txt"));
+			while ((temp = brc.readLine()) != null) {
+				String[] token = temp.split(";");
+				if (token[6].equals(trader)) {
+					prodName.add(count, new Product(token[0], token[1], token[2], Integer.parseInt(token[3]),
+							Integer.parseInt(token[4]), token[5], token[6]));
+					count++;
+				}
+			}
+			brc.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return prodName;
+	}
+
+	/**
+	 * This method selection sorts according to the length of the names using the
+	 * sort algorithm.
+	 * 
+	 * @param ArrayList product Product
+	 * @return ArrayList Product
+	 */
+	public ArrayList<Product> sortNameDecreasing(ArrayList<Product> prdct) {
+		for (int i = 0; i < prdct.size() - 1; i++) {
+			int posMin = i;
+			for (int j = i + 1; j < prdct.size(); j++) {
+				if (prdct.get(j).compareToName(prdct.get(i)) < 0) {
+					posMin = j;
+				}
+			}
+			Product temp = prdct.get(i);
+			prdct.set(i, prdct.get(posMin));
+			prdct.set(posMin, temp);
+
+		}
+		return prdct;
+	}
+
+	/**
+	 * This method bubble sorts according to the price of the Product using the sort
+	 * algorithm.
+	 * 
+	 * @param prdct ArrayList Product
+	 * @return ArrayList
+	 */
+	public ArrayList<Product> sortPriceDown(ArrayList<Product> prdct) {
+		int flag = 1;
+		boolean change = false;
+		do {
+			change = false;
+			for (int i = 0; i < prdct.size() - flag; i++) {
+				if (prdct.get(i).compareToPrice(prdct.get(i + 1)) > 0) {
+					Product temp = prdct.get(i);
+					prdct.set(i, prdct.get(i + 1));
+					prdct.set(i + 1, temp);
+					change = true;
+				}
+			}
+			flag++;
+		} while (change);
+		return prdct;
+	}
+
+	/**
+	 * This method returns a new list between the values received from the user and
+	 * the prices of the products in the List.
+	 * 
+	 * @param prdct      Product List
+	 * @param UpperLimit Product prices Integer upperLimit
+	 * @param DownLimit  Product prices Integer downLimit
+	 * @return ArrayList Product
+	 */
+	public ArrayList<Product> searchPriceLimit(ArrayList<Product> prdct, int UpperLimit, int DownLimit) {
+		ArrayList<Product> temp = new ArrayList<Product>();
+		for (int i = 0; i < prdct.size(); i++) {
+			if (prdct.get(i).getPrice() < UpperLimit && prdct.get(i).getPrice() > DownLimit) {
+				temp.add(prdct.get(i));
+			}
+		}
+		return temp;
+	}
+
+	/**
+	 * This method returns a new list between the values received from the user and
+	 * the discount of the products in the List.
+	 * 
+	 * @param prdct      Product List
+	 * @param UpperLimit Product prices Integer upperLimit
+	 * @param DownLimit  Product prices Integer downLimit
+	 * @return ArrayList Product
+	 */
+	public ArrayList<Product> searchDiscountLimit(ArrayList<Product> prdct, int UpperLimit, int DownLimit) {
+		ArrayList<Product> temp = new ArrayList<Product>();
+		for (int i = 0; i < prdct.size(); i++) {
+			if (prdct.get(i).getDiscountAmount() < UpperLimit && prdct.get(i).getDiscountAmount() > DownLimit) {
+				temp.add(prdct.get(i));
+			}
+		}
+		return temp;
+	}
+
+	/**
+	 * This method The product Arraylist that this method takes as a parameter will
+	 * sort the ArrayList according to discount.
+	 * 
+	 * @param prdct
+	 * @return
+	 */
+	public ArrayList<Product> sortProductDiscount(ArrayList<Product> prdct) {
+		for (int i = 0; i < prdct.size() - 1; i++) {
+			int posMin = i;
+			for (int j = i + 1; j < prdct.size(); j++) {
+				if (prdct.get(j).compareToDiscount(prdct.get(i)) < 0) {
+					posMin = j;
+				}
+			}
+			Product temp = prdct.get(i);
+			prdct.set(i, prdct.get(posMin));
+			prdct.set(posMin, temp);
+
+		}
+		return prdct;
+	}
+
+	public ArrayList<Product> searchProductCategory(String category) {
+		ArrayList<Product> temp = new ArrayList<Product>();
+		String temp2 = "";
+		try {
+			brc = new BufferedReader(new FileReader("data/product.txt"));
+			while ((temp2 = brc.readLine()) != null) {
+				String[] token = temp2.split(";");
+				if (token[2].contains(category)) {
+					temp.add(new Product(token[0], token[1], token[2], Integer.parseInt(token[3]),
+							Integer.parseInt(token[4]), token[5], token[6]));
+				}
+			}
+			brc.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+	public boolean order(Product prdct, String cusName) {
+		if (cusName == null) {
+			return false;
+		}
+		String temp = "";
+		try {
+			brc = new BufferedReader(new FileReader("data/product.txt"));
+			bwo = new BufferedWriter(new FileWriter("data/order.txt"));
+			bwo.write("product_id;from;to;status");
+			bwo.write("\n");
+			while ((temp = brc.readLine()) != null) {
+				String[] token = temp.split(";");
+				if (token[0].equals(prdct.getId()) && token[1].equals(prdct.getName())
+						&& token[2].equals(prdct.getPrdctCatog()) && Integer.parseInt(token[3]) == prdct.getPrice()
+						&& Integer.parseInt(token[4]) == prdct.getDiscountAmount()
+						&& token[5].equals(prdct.getDescription()) && token[6].equals(prdct.getTrader())) {
+
+					bwo.write(token[0]);
+					bwo.write(";");
+					bwo.write(cusName);
+					bwo.write(";");
+					bwo.write(token[6]);
+					bwo.write(";");
+					bwo.write("Waiting");
+
+					return true;
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+}

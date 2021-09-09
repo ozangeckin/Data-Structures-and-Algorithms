@@ -1,0 +1,94 @@
+
+public class Product {
+
+	private String id;
+	private String name;
+	private String prdctCatog;
+	private Integer price;
+	private Integer discountAmount;
+	private String description;
+	private String trader;
+
+	public Product(String id, String name, String prdctCategory, Integer price, Integer dicPri, String description,
+			String trader) {
+		this.id = id;
+		this.name = name;
+		this.prdctCatog = prdctCategory;
+		this.price = price;
+		this.discountAmount = dicPri;
+		this.description = description;
+		this.trader = trader;
+
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getTrader() {
+		return trader;
+	}
+
+	public void setTrader(String trader) {
+		this.trader = trader;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Integer getPrice() {
+		return price;
+	}
+
+	public void setPrice(Integer price) {
+		this.price = price;
+	}
+
+	public Integer getDiscountAmount() {
+		return discountAmount;
+	}
+
+	public void setDiscountAmount(Integer discountAmount) {
+		this.discountAmount = discountAmount;
+	}
+
+	public String getPrdctCatog() {
+		return prdctCatog;
+	}
+
+	public void setPrdctCatog(String prdctCatog) {
+		this.prdctCatog = prdctCatog;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("Product ID: "+id + " Product Name: "+ name + " Product Catalog: " + prdctCatog + " Product Price: " + String.valueOf(price) + " Product Discount Amount: "
+				+ String.valueOf(discountAmount) + " Product Description: " + description + " Product Trader: " + trader);
+	}
+
+	public int compareToName(Product product) {
+		return(this.name.compareTo(product.getName()));
+	}
+
+	public int compareToPrice(Product product) {
+		// TODO Auto-generated method stub
+		return (this.price.compareTo(product.getPrice()));
+	}
+}

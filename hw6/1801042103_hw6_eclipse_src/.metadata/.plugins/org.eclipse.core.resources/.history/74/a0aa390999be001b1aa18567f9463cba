@@ -1,0 +1,249 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
+/**
+ * This class has been extended from the User class. I keep data about the
+ * trader by using the hashmap and arraylist data structures. It contains the
+ * methods that perform the function operations related to the trader.
+ * 
+ * @author ozan.geckin
+ *
+ */
+public class Trader extends User {
+
+	/** ArrayList holding the Products */
+	private ArrayList<Product> product;
+	private BufferedReader br;
+	private BufferedWriter bwt;
+	/** Kept temporary products */
+	private ArrayList<Product> tempPro = new ArrayList<Product>();
+
+	/**
+	 * No parameter constructor
+	 */
+	public Trader() {
+
+	}
+
+	/**
+	 * One parameter constructor
+	 * 
+	 * @param userName trader name
+	 */
+	public Trader(String userName) {
+		super(userName, "trader");
+	}
+
+	/**
+	 * Four parameter constructor.This constructor also gets products from the file
+	 * according to trader
+	 * 
+	 * @param userId   trader id
+	 * @param userName trader name
+	 * @param password trader password
+	 * @param role     trader role
+	 */
+	public Trader(Integer userId, String userName, String password, String role) {
+		super(userId, userName, password, role);
+		String temp;
+		product = new ArrayList<Product>();
+		try {
+			br = new BufferedReader(new FileReader("data/product.txt"));
+			br.readLine();
+			while ((temp = br.readLine()) != null) {
+				String[] token = temp.split(";");
+				if (token.length != 7) {
+					break;
+				}
+				String prdctId = token[0];
+				String prdctName = token[1];
+				String prdctCategory = token[2];
+				Integer price = Integer.parseInt(token[3]);
+				Integer dicPri = Integer.parseInt(token[4]);
+				String description = token[5];
+				String treader = token[6];
+				if (userName.equals(treader)) {
+					product.add(new Product(prdctId, prdctName, prdctCategory, price, dicPri, description, treader));
+				}
+			}
+			br.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found!");
+		} catch (IOException e) {
+			System.out.println("Cannot read file");
+		}
+	}
+
+	/**
+	 * This method product.txt adds product to filename.
+	 * 
+	 * @param pr Product
+	 */
+	public void addProduct(Product pr) {
+		try {
+			bwt = new BufferedWriter(new FileWriter("data/product.txt", true));
+			bwt.write(pr.getId());
+			bwt.write(";");
+			bwt.write(pr.getName());
+			bwt.write(";");
+			bwt.write(pr.getPrdctCatog());
+			bwt.write(";");
+			bwt.write(String.valueOf(pr.getPrice()));
+			bwt.write(";");
+			bwt.write(String.valueOf(pr.getDiscountAmount()));
+			bwt.write(";");
+			bwt.write(pr.getDescription());
+			bwt.write(";");
+			bwt.write(pr.getTrader());
+			bwt.write("\n");
+			bwt.close();
+		} catch (IOException e) {
+			System.out.println("Cannot read file");
+		}
+
+	}
+
+	/**
+	 * This method remove product in product.txt
+	 * 
+	 * @param prId       product id
+	 * @param traderName trader name
+	 */
+	public void removeProduct(String prId, String traderName) {
+		String temp;
+		int co = 0;
+		try {
+			br = new BufferedReader(new FileReader("data/product.txt"));
+			br.readLine();
+			while ((temp = br.readLine()) != null) {
+				String[] token = temp.split(";");
+
+				if (token[0] != null && token[0] != ";" && token[1] != null && token[1] != ";" && token[2] != null
+						&& token[2] != ";" && token[3] != null && token[3] != ";" && token[4] != null && token[4] != ";"
+						&& token[5] != null && token[5] != ";" && token[6] != null && token[6] != ";") {
+					if (token[0].equals(prId) && token[6].equals(traderName)) {
+					} else {
+						tempPro.add(new Product(token[0], token[1], token[2], Integer.parseInt(token[3]),
+								Integer.parseInt(token[4]), token[5], token[6]));
+					}
+				}
+			}
+			br.close();
+			bwt = new BufferedWriter(new FileWriter("data/product.txt"));
+			bwt.write("id;product_name;product_category_tree;price;discounted_price;description;trader");
+			bwt.write("\n");
+			while (tempPro.size() > co) {
+				bwt.write(tempPro.get(co).getId());
+				bwt.write(";");
+				bwt.write(tempPro.get(co).getName());
+				bwt.write(";");
+				bwt.write(tempPro.get(co).getPrdctCatog());
+				bwt.write(";");
+				bwt.write(String.valueOf(tempPro.get(co).getPrice()));
+				bwt.write(";");
+				bwt.write(String.valueOf(tempPro.get(co).getDiscountAmount()));
+				bwt.write(";");
+				bwt.write(tempPro.get(co).getDescription());
+				bwt.write(";");
+				bwt.write(tempPro.get(co).getTrader());
+				bwt.write("\n");
+				co++;
+			}
+			bwt.close();
+		} catch (IOException e) {
+			System.out.println("Cannot read file");
+		}
+	}
+
+	/**
+	 * This method change product in product.txt
+	 * 
+	 * @param prdId product id
+	 * @param newPr new Product obje
+	 */
+	public void editProduct(String prdId, Product newPr) {
+		String temp;
+		tempPro = new ArrayList<Product>();
+		int co = 0;
+		try {
+			br = new BufferedReader(new FileReader("data/product.txt"));
+			br.readLine();
+			while ((temp = br.readLine()) != null) {
+				String[] token = temp.split(";");
+				if (token[0].equals(prdId)) {
+					tempPro.add(new Product(newPr.getId(), newPr.getName(), newPr.getPrdctCatog(), newPr.getPrice(),
+							newPr.getDiscountAmount(), newPr.getDescription(), newPr.getTrader()));
+				} else {
+					tempPro.add(new Product(token[0], token[1], token[2], Integer.parseInt(token[3]),
+							Integer.parseInt(token[4]), token[5], token[6]));
+				}
+			}
+			br.close();
+			bwt = new BufferedWriter(new FileWriter("data/product.txt"));
+			bwt.write("id;product_name;product_category_tree;price;discounted_price;description;trader");
+			bwt.write("\n");
+			while (tempPro.size() > co) {
+				bwt.write(tempPro.get(co).getId());
+				bwt.write(";");
+				bwt.write(tempPro.get(co).getName());
+				bwt.write(";");
+				bwt.write(tempPro.get(co).getPrdctCatog());
+				bwt.write(";");
+				bwt.write(String.valueOf(tempPro.get(co).getPrice()));
+				bwt.write(";");
+				bwt.write(String.valueOf(tempPro.get(co).getDiscountAmount()));
+				bwt.write(";");
+				bwt.write(tempPro.get(co).getDescription());
+				bwt.write(";");
+				bwt.write(tempPro.get(co).getTrader());
+				bwt.write("\n");
+				co++;
+			}
+			bwt.close();
+		} catch (IOException e) {
+			System.out.println("Cannot read file");
+		}
+
+	}
+
+	/**
+	 * This method returns an arrayList to list the orders made to that trader
+	 * according to the trader name it receives.
+	 * 
+	 * @param traderName trader name
+	 * @return ArrayList Product
+	 */
+	public LinkedList<Product> listOrder(String traderName) {
+		LinkedList<Product> te = new LinkedList<Product>();
+		String temp = "";
+		try {
+			br = new BufferedReader(new FileReader("data/order.txt"));
+			while ((temp = br.readLine()) != null) {
+				String[] token = temp.split(";");
+				if (token[2].equals(traderName)) {
+					te.add(new Product(token[0], token[1], token[2], Integer.parseInt(token[3]),
+							Integer.parseInt(token[4]), token[5], token[6]));
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return te;
+	}
+	
+	/**
+	 * This method edit order 
+	 * 
+	 * @return boolean 
+	 */
+	public boolean editOrder() {
+		return true;
+	}
+}

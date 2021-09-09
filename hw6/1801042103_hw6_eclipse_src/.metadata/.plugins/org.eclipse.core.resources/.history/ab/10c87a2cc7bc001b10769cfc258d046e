@@ -1,0 +1,14 @@
+import java.util.ArrayList;
+
+public class Customer extends User {
+
+	ArrayList<Product> product;
+	
+	public Customer(Integer userId, String userName,String password, String role) {
+		super(userId, userName,password, role);
+		
+	
+	}
+	
+	
+}

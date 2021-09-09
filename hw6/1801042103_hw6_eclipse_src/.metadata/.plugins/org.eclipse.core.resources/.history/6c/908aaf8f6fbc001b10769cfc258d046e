@@ -1,0 +1,41 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
+public class Parser {
+
+	public void parser() {	
+		String temp;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("data/e-commerce-samples.csv"));
+			BufferedWriter bw =,
+					new BufferedWriter(new FileWriter("data/product.txt"));
+			while((temp = br.readLine()) != null) {
+				StringTokenizer line = new StringTokenizer(temp,";");
+				String temp2 =line.nextToken();
+				bw.write(temp);
+				bw.write(";"); 
+				bw.write(line.nextToken());
+				bw.write(";"); 
+				bw.write(line.nextToken());
+				bw.write(";"); 
+				bw.write(line.nextToken());
+				bw.write(";"); 
+				bw.write(line.nextToken());
+				bw.write(";"); 
+				bw.write(line.nextToken());
+				bw.write(";"); 
+				bw.write(line.nextToken());
+				bw.write("\n");		
+			}
+		}catch(FileNotFoundException e) {
+			System.out.println("File not found!");
+		}catch(IOException e) {
+			System.out.println("Cannot read file!");
+		}
+	}
+}

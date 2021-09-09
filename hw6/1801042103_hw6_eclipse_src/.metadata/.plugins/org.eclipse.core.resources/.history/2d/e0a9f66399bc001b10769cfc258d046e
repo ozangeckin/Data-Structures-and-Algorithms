@@ -1,0 +1,27 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+public class Parser {
+
+	public void parser() {	
+		String temp;
+		 
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("data/e-commerce-samples.csv"));
+			BufferedWriter bw = new BufferedWriter(new FileWriter("data/product.txt"));
+			while((temp = br.readLine()) != null) {
+			ArrayList<String> temp2 =new ArrayList<>(); 	
+			
+			}
+		}catch(FileNotFoundException e) {
+			System.out.println("File not found!");
+		}catch(IOException e) {
+			System.out.println("Cannot read file!");
+		}
+	}
+}

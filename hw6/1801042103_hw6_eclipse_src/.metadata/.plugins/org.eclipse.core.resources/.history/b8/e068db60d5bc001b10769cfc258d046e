@@ -1,0 +1,44 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+public class Customer extends User {
+
+	ArrayList<Product> product;
+	private BufferedReader br;
+
+	public Customer(Integer userId, String userName,String password, String role) {
+		super(userId, userName,password, role);
+		String temp;
+		product =new ArrayList<Product>();
+		try {
+			br = new BufferedReader(new FileReader("data/product.txt"));
+			while((temp = br.readLine()) != null) {
+				StringTokenizer st = new StringTokenizer(temp,";");
+				while(st.hasMoreTokens()) {
+					String prdctId= st.nextToken();
+					String prdctName= st.nextToken();
+					String prdctCategory= st.nextToken();
+					Double price = Double.parseDouble (st.nextToken());
+					Double dicPri = Double.parseDouble (st.nextToken());
+					String description = st.nextToken();
+					String treader =st.nextToken();
+					if(userName.equals(treader)) {
+						product.add(new Product(prdctId,prdctName,prdctCategory,price,dicPri,description,treader));
+					}
+					
+				}
+			}
+			
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found!");
+		} catch (IOException e) {
+			System.out.println("Cannot read file");
+		}
+	}
+	
+	
+}

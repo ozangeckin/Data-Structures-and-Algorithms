@@ -1,0 +1,36 @@
+public class User {
+
+    private Integer userId;
+    private String password;
+    private String userName;
+    private String role;
+
+    public User(Integer userId, String userName,String role) {
+        this.userId = userId;
+        this.userName=userName;
+        this.role = role;
+    }
+
+    public User(Integer userId,String userName, String password, String role) {
+        this.userId = userId;
+        this.password=password;
+        this.userName=userName;
+        this.role = role;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getRole() {
+        return role;
+    }
+}
